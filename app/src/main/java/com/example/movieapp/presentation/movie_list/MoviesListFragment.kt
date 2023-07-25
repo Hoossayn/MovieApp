@@ -1,60 +1,88 @@
 package com.example.movieapp.presentation.movie_list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.movieapp.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.movieapp.common.MoviesListType
+import com.example.movieapp.databinding.FragmentMoviesListBinding
+import com.example.movieapp.domain.model.Movie
+import com.example.movieapp.domain.model.MoviesList
+import com.example.movieapp.presentation.HomeViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MoviesListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MoviesListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentMoviesListBinding? = null
+    private val binding get() = _binding!!
+    private val sharedHomeViewModel: HomeViewModel by activityViewModels()
+    private lateinit var moviesListAdapter: MoviesListAdapter
+    private lateinit var currentMoviesList: MoviesList
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies_list, container, false)
+    ): View {
+        _binding = FragmentMoviesListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MoviesListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MoviesListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModelObservers()
+        moviesListRecViewSetup()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupViewModelObservers() {
+        sharedHomeViewModel.moviesListType.observe(viewLifecycleOwner) { type ->
+            when (type!!) {
+                MoviesListType.POPULAR -> {
+                    binding.headerTV.text = "Popular Movies"
+                    currentMoviesList = sharedHomeViewModel.popularMoviesList.value!!.data!!
+                    moviesListAdapter.submitList(currentMoviesList.movies)
+                }
+
+                MoviesListType.NOW_PLAYING -> {
+                    binding.headerTV.text = "Now Playing Movies"
+                    currentMoviesList = sharedHomeViewModel.nowPlayingMoviesList.value!!.data!!
+                    moviesListAdapter.submitList(currentMoviesList.movies)
+                }
+
+                MoviesListType.UPCOMING -> {
+                    binding.headerTV.text = "Upcoming Movies"
+                    currentMoviesList = sharedHomeViewModel.upcomingMoviesList.value!!.data!!
+                    moviesListAdapter.submitList(currentMoviesList.movies)
+                }
+
+                MoviesListType.TOP_RATED -> {
+                    binding.headerTV.text = "Top Rated Movies"
+                    currentMoviesList = sharedHomeViewModel.topRatedMoviesList.value!!.data!!
+                    moviesListAdapter.submitList(currentMoviesList.movies)
                 }
             }
+        }
     }
+
+    private fun moviesListRecViewSetup() {
+        binding.moviesListRV.layoutManager = GridLayoutManager(requireContext(), 3)
+        moviesListAdapter = MoviesListAdapter(object : MovieListItemListener {
+            override fun onClick(item: Movie, position: Int) {
+                val action =
+                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(item.id)
+                findNavController().navigate(action)
+            }
+        })
+        binding.moviesListRV.adapter = moviesListAdapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
