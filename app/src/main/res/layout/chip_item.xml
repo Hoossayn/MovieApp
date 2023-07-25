@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MyChipStyle"
+    tools:text="action">
+
+</com.google.android.material.chip.Chip>

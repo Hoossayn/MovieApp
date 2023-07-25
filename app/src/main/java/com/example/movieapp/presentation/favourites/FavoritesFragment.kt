@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieapp.databinding.FragmentFavoritesBinding
 import com.example.movieapp.domain.model.Movie
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
 
     private var _binding: FragmentFavoritesBinding? = null

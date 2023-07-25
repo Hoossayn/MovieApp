@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    tools:context=".presentation.search.SearchFilterFragment"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/sortByHeader"
+        style="@style/MyChipHeaderStyle"
+        android:layout_alignParentStart="true"
+        android:text="Sort by" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/sortByChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sortByHeader"
+        android:layout_marginStart="10dp"
+        app:checkedChip="@id/popularityChip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/popularityChip"
+            style="@style/MyChipStyle"
+            android:text="popularity" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/voteChip"
+            style="@style/MyChipStyle"
+            android:text="vote" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dateChip"
+            style="@style/MyChipStyle"
+            android:text="date" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/revenueChip"
+            style="@style/MyChipStyle"
+            android:text="revenue" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/genreHeader"
+        style="@style/MyChipHeaderStyle"
+        android:layout_below="@id/sortByChipGroup"
+        android:text="Genre" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/genreChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/genreHeader"
+        android:layout_marginStart="10dp"
+        app:chipSpacingVertical="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/rateHeader"
+        style="@style/MyChipHeaderStyle"
+        android:layout_below="@id/genreChipGroup"
+        android:text="Rating" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/rateRangeSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rateHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:stepSize="0.1"
+        android:valueFrom="0.0"
+        android:valueTo="10.0"
+        app:values="@array/rate_initial_slider_values" />
+
+    <TextView
+        android:id="@+id/yearHeader"
+        style="@style/MyChipHeaderStyle"
+        android:layout_below="@id/rateRangeSlider"
+        android:text="Year" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/yearRangeSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yearHeader"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:stepSize="1"
+        android:valueFrom="1900"
+        android:valueTo="2023"
+        app:values="@array/year_initial_slider_values" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yearRangeSlider"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/resetFilterBtn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Reset"
+            app:backgroundTint="?attr/colorPrimary"
+            app:icon="@drawable/ic_reset" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/applyFilterBtn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Apply"
+            app:icon="@drawable/ic_done" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -18,7 +18,7 @@
     </fragment>
     <dialog
         android:id="@+id/searchFilterFragment"
-        android:name="com.example.movieapp.presentation.search.SearchFragment"
+        android:name="com.example.movieapp.presentation.search.SearchFilterFragment"
         android:label="fragment_search_filter"
         tools:layout="@layout/fragment_search" />
     <fragment
