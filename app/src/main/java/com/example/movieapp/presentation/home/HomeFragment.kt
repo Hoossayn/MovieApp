@@ -1,24 +1,19 @@
 package com.example.movieapp.presentation.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.common.MoviesListType
 import com.example.movieapp.common.Resource
 import com.example.movieapp.databinding.FragmentHomeBinding
-import com.example.movieapp.databinding.FragmentMoviesListBinding
 import com.example.movieapp.domain.model.Movie
-import com.example.movieapp.domain.model.MoviesList
-import com.example.movieapp.presentation.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

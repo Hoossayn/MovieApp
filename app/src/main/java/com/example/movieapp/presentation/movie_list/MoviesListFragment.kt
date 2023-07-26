@@ -13,7 +13,7 @@ import com.example.movieapp.common.MoviesListType
 import com.example.movieapp.databinding.FragmentMoviesListBinding
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.domain.model.MoviesList
-import com.example.movieapp.presentation.HomeViewModel
+import com.example.movieapp.presentation.home.HomeViewModel
 
 class MoviesListFragment : Fragment() {
 

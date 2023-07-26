@@ -1,10 +1,8 @@
-package com.example.movieapp.presentation
+package com.example.movieapp.presentation.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.movieapp.common.MoviesListType
 import com.example.movieapp.common.Resource
 import com.example.movieapp.domain.model.MoviesList
@@ -12,15 +10,13 @@ import com.example.movieapp.domain.use_case.GetMoviesListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMoviesListUseCase: GetMoviesListUseCase,
-    private val savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
     private val _popularMoviesList = MutableLiveData<Resource<MoviesList>>()
@@ -47,8 +43,9 @@ class HomeViewModel @Inject constructor(
         _moviesListType.value = listType
     }
 
-    private fun getPopularMoviesList() {
+    fun getPopularMoviesList() {
         disposable = getMoviesListUseCase(MoviesListType.POPULAR)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{ _popularMoviesList.value = it }
     }
@@ -69,6 +66,11 @@ class HomeViewModel @Inject constructor(
         disposable = getMoviesListUseCase(MoviesListType.TOP_RATED)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { _topRatedMoviesList.value = it }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
     }
 
 }
